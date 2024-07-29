@@ -1,0 +1,41 @@
+﻿<h1>Hellow World From First View</h1>
+<style>
+h1{
+    color:red
+}
+</style>
+<script>
+console.log("Hello");
+</script>
+<!--Razor Engin-->
+<!--Block Code-->
+@{
+    int x =10 ;
+    int y = x +10;
+
+}
+<!--Inline Statment-->
+<h2>@x</h2>
+@y
+<!--Condition statment-->
+@if (x > y){
+
+    <h2>X ggreater than y</h2>
+}
+else
+{
+    <h2>X = @x Less than y =@y</h2>
+
+}
+
+
+<!--Looping Statment-->
+@for(int i = 0; i < 10; i++)
+{
+    <li>@i</li>
+}
+
+
+
+
+
