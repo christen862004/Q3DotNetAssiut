@@ -2,6 +2,20 @@
 {
     public class testClass
     {
+
+        int viewData;
+        public int ViewData
+        {
+            set { viewData = value;}
+            get { return viewData; }
+        }
+
+        public dynamic ViewBag
+        {
+            set { ViewData = value; }
+            get { return ViewData; }
+        }
+
         public int Add(int x,int y)
         {
             dynamic xx = 5;
