@@ -6,7 +6,7 @@ namespace Q3DotNetAssiut.Controllers
 {
     public class HomeController : Controller
     {
-
+        
         //MEthod Public 
         //Cant be static 
         //cant be overload

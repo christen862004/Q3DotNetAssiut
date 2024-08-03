@@ -14,5 +14,28 @@ namespace Q3DotNetAssiut.Controllers
                 .ToList();
             return View("Index",departmentList);//Model List<department>
         }
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View("Add");//Model Null
+        }
+
+        //Department/SAveAdd? Name = Sd & ManagerName = Ahmed
+        //GEt Handel
+        //Post HAndel
+        [HttpPost]//Fillter
+        public IActionResult SAveAdd(Department newDeptFromRequest)
+        {
+            if (newDeptFromRequest.Name != null)
+            {
+                context.Department.Add(newDeptFromRequest);
+                context.SaveChanges();
+                //return View("Index",context.Department.ToList());
+                //Call Action  from another action
+                return RedirectToAction("Index");
+            }
+            return View("Add", newDeptFromRequest);//Model DEpartment
+            
+        }
     }
 }

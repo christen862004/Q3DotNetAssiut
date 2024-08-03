@@ -1,0 +1,51 @@
+﻿
+@model EmpWithDEptListViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+<form method="post" action="/Employee/SAveEdit/@Model.Id">
+@*     <input type="hidden" name="id" value="@Model.Id" /> *@
+    <div>
+        <label>Name</label>
+        <input type="text" value="@Model.Name" id="Name" name="Name" class="form form-control" />
+    </div>
+    <div>
+        <label>Address</label>
+        <input type="text" value="@Model.Address" id="Address" name="Address" class="form form-control" />
+    </div>
+    <div>
+        <label>ImageURL</label>
+        <input type="text" value="@Model.ImageURL" id="ImageURL" name="ImageURL" class="form form-control" />
+    </div>
+    <div>
+        <label>Salary</label>
+        <input type="number" value="@Model.Salary" id="Salary" name="Salary" class="form form-control" />
+    </div>
+    <div>
+        <label>JobTitle</label>
+        <input type="text" value="@Model.JobTitle" id="JobTitle" name="JobTitle" class="form form-control" />
+    </div>
+    <div>
+        <label>DepartmentID</label>
+        @* <input type="number" value="@Model.DepartmentID" id="DepartmentID" name="DepartmentID" class="form form-control" /> *@
+        <select id="DepartmentID" name="DepartmentID" class="form form-control">
+            @foreach (var deptItem in Model.DeptList)
+            {
+                if (Model.DepartmentID == deptItem.Id)
+                {
+                    <option value="@deptItem.Id" selected>@deptItem.Name</option>
+                }
+                else
+                {
+                    <option value="@deptItem.Id" >@deptItem.Name</option>
+
+                }
+            }
+
+        </select>
+    </div>
+    <input type="submit" value="Save" class="btn btn-success" />
+</form>
+
