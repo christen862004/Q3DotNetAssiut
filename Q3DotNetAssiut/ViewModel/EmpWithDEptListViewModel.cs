@@ -1,4 +1,5 @@
 ﻿using Q3DotNetAssiut.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Q3DotNetAssiut.ViewModel
@@ -7,6 +8,8 @@ namespace Q3DotNetAssiut.ViewModel
     {
         public int Id { get; set; }
 
+        [Display(Name ="Full Name")]
+        //[DataType(DataType.Password)]
         public string Name { get; set; }
 
         public int Salary { get; set; }

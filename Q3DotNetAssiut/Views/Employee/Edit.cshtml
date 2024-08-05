@@ -5,11 +5,19 @@
 }
 
 <h1>Edit</h1>
-<form method="post" action="/Employee/SAveEdit/@Model.Id">
+<form method="post" asp-action="SaveEdit" asp-controller="Employee" asp-route-id="@Model.Id">
+    <!-- action="/Employee/SAveEdit/@Model.Id"-->
 @*     <input type="hidden" name="id" value="@Model.Id" /> *@
     <div>
-        <label>Name</label>
-        <input type="text" value="@Model.Name" id="Name" name="Name" class="form form-control" />
+        @* <label>Name</label> *@
+        @* <input type="text" value="@Model.Name" id="Name" name="Name" class="form form-control" /> *@
+        @* @Html.TextBox("Name") *@
+        @Html.LabelFor(e=>e.Name)
+        @Html.EditorFor(e=>e.Name)
+        <label asp-for="Name"></label>
+        <input class="form form-control" asp-for="Name"/>
+        @* @Html.TextBoxFor(e => e.Name,
+            new { style = "color:red",@class="form form-control"}) *@
     </div>
     <div>
         <label>Address</label>
@@ -49,3 +57,12 @@
     <input type="submit" value="Save" class="btn btn-success" />
 </form>
 
+<a href="/Employee/Index">BAck To List</a>
+@Html.ActionLink("Back","Index","Employee")
+<a asp-action="Index" asp-controller="Employee">Back </a>
+
+<hr />
+<a href="/Employee/Details/@Model.Id?name=Ahmed">DEtails</a>
+@Html.ActionLink("--Details--","Details","Employee",new{id=Model.Id,name=Model.Name})
+<a asp-action="Details" asp-controller="Employee" 
+asp-route-id="@Model.Id" asp-route-name="@Model.Name">DEtails</a>

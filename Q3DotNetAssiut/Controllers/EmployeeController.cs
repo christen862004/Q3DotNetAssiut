@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Q3DotNetAssiut.Models;
 using Q3DotNetAssiut.ViewModel;
@@ -12,6 +13,48 @@ namespace Q3DotNetAssiut.Controllers
         {
                 
         }
+        //Employee/CheckSalary?Salary=1000
+        public IActionResult CheckSalary(int Salary,string JobTitle)
+        {
+            if (Salary > 6000 && JobTitle =="S")
+                return Json(true);
+            else if(JobTitle=="B" && Salary>10000)
+                return Json(true);
+            else if(JobTitle=="M" && Salary>40000)
+                return Json(true);
+            else
+                return Json(false);
+        }
+
+
+        [HttpGet]
+        public IActionResult NEw()
+        {
+            ViewData["DeptList"] = context.Department.ToList();
+            return View("New");
+        }
+
+        [HttpPost]
+        public IActionResult SaveNEw(Employee EmpFromREquest)
+        {
+            if(ModelState.IsValid==true)
+            {
+                try
+                {
+                    //save
+                    context.Employee.Add(EmpFromREquest);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                }
+            }
+            ViewData["DeptList"] = context.Department.ToList();
+            return View("NEw", EmpFromREquest);
+        }
+
+
 
         public IActionResult Index()
         {
@@ -19,7 +62,7 @@ namespace Q3DotNetAssiut.Controllers
         }
 
         //Hsandel Link
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int id,string name)
         {
             Employee EmpModel =
                 context.Employee.FirstOrDefault(e=>e.Id== id);
