@@ -2,6 +2,17 @@
 {
     public class testClass
     {
+        public void MEthod1()
+        {
+            Console.WriteLine( "1");
+            MEthod2();
+            Console.WriteLine("3");
+        }
+        public void MEthod2()
+        {
+            Console.WriteLine( "2");
+        }
+
 
         int viewData;
         public int ViewData
