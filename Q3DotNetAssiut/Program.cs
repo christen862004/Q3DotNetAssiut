@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.Build.Framework;
+using Microsoft.EntityFrameworkCore;
+using Q3DotNetAssiut.Models;
+using Q3DotNetAssiut.Repository;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Q3DotNetAssiut
@@ -8,12 +12,22 @@ namespace Q3DotNetAssiut
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            //Framwork service :already decalre ,alraedy register
+            //built in service :already delcare ,need to register
             // Add services to the container.//Day8
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+            builder.Services.AddDbContext<ITIContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
+            //Custom Servce "RegisterB
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            
+            
             var app = builder.Build();
 
             #region Custm Middleware"inline Middlewa"

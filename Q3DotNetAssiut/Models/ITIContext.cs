@@ -7,9 +7,13 @@ namespace Q3DotNetAssiut.Models
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Department> Department { get; set; }
         //
-        public ITIContext():base()
+        public ITIContext() : base()
         {
-            
+        }
+
+        public ITIContext(DbContextOptions options) : base(options)
+        {
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

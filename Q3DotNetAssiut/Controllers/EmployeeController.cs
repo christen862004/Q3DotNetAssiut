@@ -2,16 +2,20 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Q3DotNetAssiut.Models;
+using Q3DotNetAssiut.Repository;
 using Q3DotNetAssiut.ViewModel;
 
 namespace Q3DotNetAssiut.Controllers
 {
     public class EmployeeController : Controller
     {
-        ITIContext context = new ITIContext();
-        public EmployeeController()
+        //  ITIContext context = new ITIContext();
+        IDepartmentRepository DepartmentRepository;
+        IEmployeeRepository EmployeeRepository;
+        public EmployeeController(IDepartmentRepository deptReo, IEmployeeRepository EmpRepo)
         {
-                
+            DepartmentRepository = deptReo;
+            EmployeeRepository = EmpRepo;
         }
         //Employee/CheckSalary?Salary=1000
         public IActionResult CheckSalary(int Salary,string JobTitle)
@@ -30,7 +34,7 @@ namespace Q3DotNetAssiut.Controllers
         [HttpGet]
         public IActionResult NEw()
         {
-            ViewData["DeptList"] = context.Department.ToList();
+            ViewData["DeptList"] =DepartmentRepository.GetAll();
             return View("New");
         }
 
@@ -42,15 +46,15 @@ namespace Q3DotNetAssiut.Controllers
                 try
                 {
                     //save
-                    context.Employee.Add(EmpFromREquest);
-                    context.SaveChanges();
+                    EmployeeRepository.Add(EmpFromREquest);
+                    EmployeeRepository.Save();
                     return RedirectToAction("Index");
                 }catch (Exception ex)
                 {
                     ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                 }
             }
-            ViewData["DeptList"] = context.Department.ToList();
+            ViewData["DeptList"] = DepartmentRepository.GetAll();
             return View("NEw", EmpFromREquest);
         }
 
@@ -58,15 +62,15 @@ namespace Q3DotNetAssiut.Controllers
 
         public IActionResult Index()
         {
-            return View("Index", context.Employee.ToList());
+            return View("Index",EmployeeRepository.GetAll());
         }
 
         //Hsandel Link
         public IActionResult Edit(int id,string name)
         {
             Employee EmpModel =
-                context.Employee.FirstOrDefault(e=>e.Id== id);
-            List<Department> DepartmentList = context.Department.ToList();
+              EmployeeRepository.GetById(id);
+            List<Department> DepartmentList = DepartmentRepository.GetAll();
             //-------------Create View Mode Mapping
             EmpWithDEptListViewModel EmpViewModel=new EmpWithDEptListViewModel();
             EmpViewModel.Id = EmpModel.Id;
@@ -88,18 +92,21 @@ namespace Q3DotNetAssiut.Controllers
         {
             if (EmpFromREquest.Name != null)
             {
-                Employee EmpFromDB= context.Employee.FirstOrDefault(e => e.Id == id);
+                Employee EmpFromDB = EmployeeRepository.GetById(id);//context.Employee.FirstOrDefault(e => e.Id == id);
                 EmpFromDB.Address=EmpFromREquest.Address;
                 EmpFromDB.Name=EmpFromREquest.Name;
                 EmpFromDB.Salary= EmpFromREquest.Salary;
                 EmpFromDB.JobTitle= EmpFromREquest.JobTitle;
                 EmpFromDB.ImageURL= EmpFromREquest.ImageURL;
                 EmpFromDB.DepartmentID= EmpFromREquest.DepartmentID;
-                context.SaveChanges();
+                EmpFromDB.Id= EmpFromREquest.Id;
+                EmployeeRepository.Update(EmpFromDB);
+                EmployeeRepository.Save();
+                //context.SaveChanges();
                 return RedirectToAction("Index");
             }
             //All Emp Data List<Department> 
-            EmpFromREquest.DeptList = context.Department.ToList();
+            EmpFromREquest.DeptList = DepartmentRepository.GetAll();//context.Department.ToList();
             return View("Edit", EmpFromREquest);
         }
 
@@ -130,16 +137,15 @@ namespace Q3DotNetAssiut.Controllers
             ViewData["Color"] = "Blue";
             ViewBag.Color = "REd";
             //ViewData.Model=empMo
-            Employee EmpMOdel= context.Employee.FirstOrDefault(e => e.Id == id);
+            Employee EmpMOdel = EmployeeRepository.GetById(id);// context.Employee.FirstOrDefault(e => e.Id == id);
             return View("Details", EmpMOdel);
         }
 
 
         public IActionResult DetailsVM(int id)
         {
-            Employee empMOdel= context.Employee
-                .Include(e=>e.Department)
-                .FirstOrDefault(e => e.Id == id);
+            Employee empMOdel = EmployeeRepository.GetById(id);
+                
             List<string> bracnches = new List<string>();
 
             bracnches.Add("Assiut");

@@ -1,17 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Q3DotNetAssiut.Models;
+using Q3DotNetAssiut.Repository;
 
 namespace Q3DotNetAssiut.Controllers
 {
     public class DepartmentController : Controller
     {
-        ITIContext context = new ITIContext();
+        // ITIContext context = new ITIContext();
+        IDepartmentRepository DeptREpo;
+        public DepartmentController(IDepartmentRepository deptRepo)///inject 
+        {
+            DeptREpo = deptRepo;// new DepartmentRepository();
+            
+        }
+
         public IActionResult Index()
         {
-            List<Department> departmentList = 
-                context.Department.Include(d=>d.Emps)
-                .ToList();
+            List<Department> departmentList = DeptREpo.GetAll();
+                //context.Department.Include(d=>d.Emps)
+                //.ToList();
             return View("Index",departmentList);//Model List<department>
         }
         [HttpGet]
@@ -28,10 +36,8 @@ namespace Q3DotNetAssiut.Controllers
         {
             if (newDeptFromRequest.Name != null)
             {
-                context.Department.Add(newDeptFromRequest);
-                context.SaveChanges();
-                //return View("Index",context.Department.ToList());
-                //Call Action  from another action
+               DeptREpo.Add(newDeptFromRequest);
+                DeptREpo.Save();
                 return RedirectToAction("Index");
             }
             return View("Add", newDeptFromRequest);//Model DEpartment
