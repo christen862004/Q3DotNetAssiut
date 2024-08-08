@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Q3DotNetAssiut.Models;
@@ -15,6 +16,11 @@ namespace Q3DotNetAssiut
             //Framwork service :already decalre ,alraedy register
             //built in service :already delcare ,need to register
             // Add services to the container.//Day8
+            //builder.Services.AddControllersWithViews(option =>
+            //{
+            //    option.Filters.Add(new HandelErrorAttribute());
+            //});
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -23,6 +29,15 @@ namespace Q3DotNetAssiut
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 4;
+                option.Password.RequireDigit = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ITIContext>();
+
+
             //Custom Servce "RegisterB
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -66,7 +81,7 @@ namespace Q3DotNetAssiut
             app.UseSession();
             
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

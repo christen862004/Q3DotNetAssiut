@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Q3DotNetAssiut.Models;
 using Q3DotNetAssiut.Repository;
@@ -11,10 +12,11 @@ namespace Q3DotNetAssiut.Controllers
         IDepartmentRepository DeptREpo;
         public DepartmentController(IDepartmentRepository deptRepo)///inject 
         {
+            
             DeptREpo = deptRepo;// new DepartmentRepository();
             
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             List<Department> departmentList = DeptREpo.GetAll();
@@ -34,6 +36,7 @@ namespace Q3DotNetAssiut.Controllers
         [HttpPost]//Fillter
         public IActionResult SAveAdd(Department newDeptFromRequest)
         {
+        
             if (newDeptFromRequest.Name != null)
             {
                DeptREpo.Add(newDeptFromRequest);

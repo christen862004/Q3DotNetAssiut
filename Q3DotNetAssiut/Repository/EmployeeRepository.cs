@@ -12,6 +12,7 @@ namespace Q3DotNetAssiut.Repository
         //CRUD
         public void Add(Employee obj)
         {
+            
             context.Add(obj);
         }
         public void Update(Employee obj)
