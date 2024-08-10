@@ -17,6 +17,21 @@ namespace Q3DotNetAssiut.Controllers
             DepartmentRepository = deptReo;
             EmployeeRepository = EmpRepo;
         }
+
+        //Employee/EmpCardPartial/1   "Calling using ajax "Partial request"
+        public IActionResult EmpCardPartial(int id)
+        {
+            return PartialView("_EmpCard",EmployeeRepository.GetById(id));//Model=Null
+        }
+
+
+
+
+
+
+
+
+
         //Employee/CheckSalary?Salary=1000
         public IActionResult CheckSalary(int Salary,string JobTitle)
         {
@@ -116,7 +131,10 @@ namespace Q3DotNetAssiut.Controllers
 
 
 
-
+        public IActionResult Delete(int id)
+        {
+            return View("Delete",EmployeeRepository.GetById(id));
+        }
 
 
         public IActionResult Details(int id)

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Q3DotNetAssiut.Models;
@@ -80,14 +81,33 @@ namespace Q3DotNetAssiut
             
             app.UseSession();
             
-            app.UseRouting();
+            app.UseRouting();//Guid
+
             app.UseAuthentication();
             app.UseAuthorization();
 
+
+            //DEcalre & execute
+            //naming confinatoin Route (Defain rout with name ,pattern ,default )
+            //constrint
+            //Optianl segment
+            //app.MapControllerRoute("Route1", "R1/{name}/{age:int}/{color?}",
+            //    new { controller ="Route",action= "Method1" }
+            //    );
+            //app.MapControllerRoute("Route2", "R2",
+            //   new { controller = "Route", action = "Method2" }
+            //   );
+
+
+
+          //  app.MapControllerRoute("Route1", "{controller=Route}/{action=Method1}");
+
+           
+
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            //app.Map("/djhsdjh", (app) => { });
+                pattern: "{controller=Employee}/{action=Index}/{id?}");
             #endregion
             app.Run();
         }

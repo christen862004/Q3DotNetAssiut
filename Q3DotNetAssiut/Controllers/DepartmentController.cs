@@ -10,12 +10,32 @@ namespace Q3DotNetAssiut.Controllers
     {
         // ITIContext context = new ITIContext();
         IDepartmentRepository DeptREpo;
-        public DepartmentController(IDepartmentRepository deptRepo)///inject 
+        IEmployeeRepository EmployeeREpo;
+        public DepartmentController(IDepartmentRepository deptRepo,IEmployeeRepository empRepo)///inject 
         {
             
             DeptREpo = deptRepo;// new DepartmentRepository();
+            EmployeeREpo = empRepo;
             
         }
+
+        public IActionResult DeptEmps()
+        {
+            return View("DeptEmps",DeptREpo.GetAll());//List<department>
+        }
+
+        //DEpartment/GetEmpsByDEptId?deptId=1
+        public IActionResult GetEmpsByDEptId(int deptId)
+        {
+            List<Employee> EmpList= EmployeeREpo.GetByDEptID(deptId);
+            return Json(EmpList);
+        }
+
+
+
+
+
+
         [Authorize]
         public IActionResult Index()
         {

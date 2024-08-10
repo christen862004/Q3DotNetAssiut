@@ -11,9 +11,11 @@ namespace Q3DotNetAssiut.Repository
         public void Delete(int id);
 
         public List<Employee> GetAll();
+
         public Employee GetById(int id);
 
         public void Save();
-      
+
+        public List<Employee> GetByDEptID(int deptID);
     }
 }

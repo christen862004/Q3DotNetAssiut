@@ -38,5 +38,10 @@ namespace Q3DotNetAssiut.Repository
         {
             context.SaveChanges();
         }
+
+        public List<Employee> GetByDEptID(int deptID)
+        {
+            return context.Employee.Where(e=>e.DepartmentID== deptID).ToList();
+        }
     }
 }

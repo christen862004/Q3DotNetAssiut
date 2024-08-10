@@ -79,7 +79,7 @@
             get { return ViewData; }
         }
 
-        public int Add(int x,int y)
+        public int Add(int x,int y=10) 
         {
             dynamic xx = 5;
             dynamic yy = "ahmed";

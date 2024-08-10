@@ -5,6 +5,7 @@
 
 <h1>Index</h1>
 <a asp-action="New" asp-controller="Employee">NEw</a>
+<div id="div1" style="border:2px solid blue"></div>
 <table class="table table-bordered table-hover">
     <tr>
         <th>ID</th>
@@ -21,7 +22,28 @@
             <td>
                 <a href="/Employee/Edit/@item.Id">Edit</a>
             </td>
+            <td>
+                <a href="/Employee/EmpCardPartial/@item.Id" onclick="GetEmpData(@item.Id)">Details</a>
+            </td>
         </tr>
     }
 
 </table>
+
+
+<script src="~/lib/jquery/dist/jquery.js" ></script>
+<script>
+    function GetEmpData(EmpID) {
+        event.preventDefault();
+        //Ajax Call Endpont using jquery
+
+        $.ajax({
+            url: "/Employee/EmpCardPartial/" + EmpID,
+            success: function (result) {
+                console.log(result);
+                $("#div1").html(result);
+            }
+        });
+
+    }
+</script>

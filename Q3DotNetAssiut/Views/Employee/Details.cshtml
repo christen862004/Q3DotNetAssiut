@@ -6,6 +6,14 @@
 
 <h1>Details</h1>
 
+<partial name="_EmpCard"/>
+
+<a href="/Employee/Index">BAck To List</a>
+
+<a href="/Employee/Edit/@Model.Id">Edit</a>
+
+
+@* 
 <h2 style="color:@ViewBag.Color">@Model.Name</h2>
 <h1>@ViewData["Msg"]</h1>
 <h2>@(int.Parse(ViewData["Temp"].ToString())-10)</h2>
@@ -28,4 +36,4 @@
     {
         <option>@item</option>
     }
-</select>
+</select> *@
